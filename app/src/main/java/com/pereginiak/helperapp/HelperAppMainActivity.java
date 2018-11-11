@@ -23,9 +23,13 @@ public class HelperAppMainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Button clickButton = (Button) findViewById(R.id.clearButton);
-        clickButton.setOnClickListener(v -> {
-            TextView trackerLogView = getTrackerLogEditText();
-            trackerLogView.setText("");
+        clickButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TextView trackerLogView = getTrackerLogEditText();
+                trackerLogView.setText("");
+
+            }
         });
     }
 
