@@ -23,9 +23,9 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".MyBroadcastReceiver">
+        <receiver android:name=".MyBroadcastReceiver" android:exported="false">
             <intent-filter>
-                <action android:name="com.pereginiak.LOCACTION_CHANGED" />
+                <action android:name="com.kasian.LOCACTION_CHANGED" />
             </intent-filter>
         </receiver>
     </application>

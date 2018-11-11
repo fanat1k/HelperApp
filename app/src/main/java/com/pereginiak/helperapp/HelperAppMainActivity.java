@@ -47,7 +47,7 @@ public class HelperAppMainActivity extends AppCompatActivity {
         textView.setKeyListener(null);
 
         MyBroadcastReceiver receiver = new MyBroadcastReceiver(textView);
-        IntentFilter intentFilter = new IntentFilter("com.pereginiak.LOCACTION_CHANGED");
+        IntentFilter intentFilter = new IntentFilter("com.kasian.LOCACTION_CHANGED");
 
         Log.i(TAG, "register MyBroadcastReceiver");
         registerReceiver(receiver, intentFilter);
