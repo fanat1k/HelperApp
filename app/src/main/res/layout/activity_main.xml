@@ -35,27 +35,45 @@
             style="@style/Widget.AppCompat.Button" android:onClick="startGPSTrackerService" android:layout_marginStart="16dp"
             app:layout_constraintStart_toEndOf="@+id/broadcastText"/>
 -->
+    <Button
+        android:id="@+id/sendBroadcast"
+        style="@style/Widget.AppCompat.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:onClick="getGpsCoordinates"
+        android:text="get GPS coordinates"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-            android:text=""
-            android:inputType="none"
-            android:scrollbars="vertical"
-            android:gravity="top"
-            android:layout_width="370dp"
-            android:layout_height="461dp"
-            android:background="#e6e6e6"
-            android:ems="10"
-            android:id="@+id/gpsTrackerLog"
-            android:layout_marginTop="24dp"
+        android:id="@+id/gpsTrackerLog"
+        android:layout_width="0dp"
+        android:layout_height="350dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="64dp"
+        android:background="#e6e6e6"
+        android:editable="false"
+        android:ems="10"
 
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+        android:gravity="top"
+        android:inputType="none"
+        android:scrollbars="vertical"
+        android:text=""
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <Button
-            android:text="Clear"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/clearButton" android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/gpsTrackerLog"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="20dp"/>
+        android:id="@+id/clearButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="8dp"
+        android:text="Clear"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

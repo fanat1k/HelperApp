@@ -1,5 +1,6 @@
 package com.pereginiak.helperapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class HelperAppMainActivity extends AppCompatActivity {
 
@@ -29,12 +31,21 @@ public class HelperAppMainActivity extends AppCompatActivity {
                 TextView trackerLogView = getTrackerLogEditText();
                 trackerLogView.setText("");
 
+/*
+    // TODO: 18.11.2018 does not work anything
+                trackerLogView.setFocusable(false);
+                trackerLogView.setEnabled(false);
+                trackerLogView.setCursorVisible(false);
+                trackerLogView.setKeyListener(null);
+                //trackerLogView.setBackgroundColor(Color.TRANSPARENT);
+*/
             }
         });
 
-        listenGpsTracker();
+        //listenGpsTracker();
     }
 
+/*
     private void listenGpsTracker() {
         TextView textView = getTrackerLogEditText();
         textView.setKeyListener(null);
@@ -45,10 +56,46 @@ public class HelperAppMainActivity extends AppCompatActivity {
         Log.i(TAG, "register MyBroadcastReceiver");
         registerReceiver(receiver, intentFilter);
     }
+*/
 
     private TextView getTrackerLogEditText() {
         return this.findViewById(R.id.gpsTrackerLog);
     }
+
+    public void getGpsCoordinates(View view) {
+        Intent intent = new Intent();
+        intent.setClassName("com.kasian.trackme", "com.kasian.trackme.ServiceActivity");
+        startActivityForResult(intent, 1);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (data != null) {
+            String coordinates = data.getStringExtra("coordinates");
+            Log.i(TAG, "Get coordinates:" + coordinates);
+            getTrackerLogEditText().append(coordinates + "\n");
+        } else {
+            Log.e(TAG, "Can't get coordinates from gps tracker");
+            getTrackerLogEditText().append("ERROR: can't get coordinates\n");
+        }
+    }
+
+    // TODO: 18.11.2018 use it
+    public void onReceive(Context context, Intent intent) {
+        Toast.makeText(context, "Action: " + intent.getAction(), Toast.LENGTH_SHORT).show();
+
+        String time = intent.getStringExtra("time");
+        double latitude = intent.getDoubleExtra("latitude", 0);
+        double longitude = intent.getDoubleExtra("longitude", 0);
+
+        String logLine = time.split(" ")[1] + " - " + latitude + " : " + longitude;
+
+        Log.i(TAG, "location changed:" + logLine);
+        getTrackerLogEditText().append(" " + logLine + "\n");
+    }
+
 
     //TODO(kasian @2018-09-22):
     private void startAnotherApp (View view) {
