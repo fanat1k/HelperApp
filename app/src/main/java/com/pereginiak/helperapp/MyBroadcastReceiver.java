@@ -9,7 +9,6 @@ import android.widget.Toast;
 
 public class MyBroadcastReceiver extends BroadcastReceiver {
     private TextView trackerLog;
-
     private static final String TAG = "MyBroadcastReceiver";
 
     public MyBroadcastReceiver() {
