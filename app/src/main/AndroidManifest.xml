@@ -7,7 +7,6 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
-
     <application
             android:allowBackup="true"
             android:icon="@mipmap/ic_launcher"
@@ -28,6 +27,11 @@
                 <action android:name="com.kasian.LOCACTION_CHANGED" />
             </intent-filter>
         </receiver>
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyB2r3WVjsuPJ_uVHZfdTxZcHNN1lMcuyM0"/>
+
     </application>
 
 </manifest>

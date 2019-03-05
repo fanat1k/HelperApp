@@ -23,10 +23,12 @@ public class HelperAppMainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
+/*
     public void clearTrackerLogView(View view) {
         TextView trackerLogView = getTrackerLogEditText();
         trackerLogView.setText("");
     }
+*/
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -34,11 +36,14 @@ public class HelperAppMainActivity extends AppCompatActivity {
 
         if (data != null) {
             String coordinates = data.getStringExtra("coordinates");
+            if (coordinates != null) {
+                coordinates = coordinates.substring(11);    // Truncate date, e.g. "2019-03-05;"
+            }
             Log.i(TAG, "Received coordinates:\n" + coordinates);
-            getTrackerLogEditText().append(coordinates + "\n");
+            //getTrackerLogEditText().append(coordinates + "\n");
         } else {
             Log.e(TAG, "Can not get coordinates from gps tracker");
-            getTrackerLogEditText().append("ERROR: can not get coordinates\n");
+            //getTrackerLogEditText().append("ERROR: can not get coordinates\n");
         }
     }
 
@@ -62,9 +67,11 @@ public class HelperAppMainActivity extends AppCompatActivity {
         //ContextCompat.startForegroundService(this, service);
     }
 
+/*
     private TextView getTrackerLogEditText() {
         return this.findViewById(R.id.gpsTrackerLog);
     }
+*/
 
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
