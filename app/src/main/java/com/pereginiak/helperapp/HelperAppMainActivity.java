@@ -157,17 +157,26 @@ public class HelperAppMainActivity extends AppCompatActivity implements OnMapRea
     }
 
     private void saveLastPosition(List<LatLng> coordinates) {
-        lastPosition = coordinates.get(coordinates.size() - 1);
+        LatLng lastCoordinate = coordinates.get(coordinates.size() - 1);
+        lastPosition = lastCoordinate;
+
+        setMapPosition(lastCoordinate.latitude, lastCoordinate.longitude);
     }
-    
+
     private void initMapPosition(double latitude, double longitude) {
         LatLng startPosition = new LatLng(latitude, longitude);
-
-        lastPosition = startPosition;
         googleMap.addMarker(new MarkerOptions().position(startPosition).title("Start"));
 
+        setMapPosition(latitude, longitude);
+    }
+
+    private void setMapPosition(double latitude, double longitude) {
+        LatLng position = new LatLng(latitude, longitude);
+
+        lastPosition = position;
+
         CameraPosition cameraPosition = new CameraPosition.Builder()
-                .target(startPosition)      // Sets the center of the map to location user
+                .target(position)           // Sets the center of the map to location user
                 .zoom(16)                   // Sets the zoom
                 .bearing(0)                 // Sets the orientation of the camera to north
                 .tilt(0)                    // Sets the tilt of the camera to 0 degrees
