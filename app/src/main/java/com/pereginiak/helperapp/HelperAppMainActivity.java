@@ -35,6 +35,8 @@ public class HelperAppMainActivity extends AppCompatActivity implements OnMapRea
 
     private static final String COORDINATES_DELIMITER = ";";
     private static final String TAG = "HelperApp";
+    private static final String BATTERY_LEVEL_PARAM = "battery_level";
+    public static final String BATTERY_IS_CHARGING_PARAM = "battery_is_charging";
 
     // TODO: 08.03.2019 sync access?
     private static LatLng lastPosition;
@@ -76,17 +78,28 @@ public class HelperAppMainActivity extends AppCompatActivity implements OnMapRea
         super.onActivityResult(requestCode, resultCode, data);
 
         if (data != null) {
-            List<LatLng> coordinates = fetchCoordinates(data);
-            if (!coordinates.isEmpty()) {
-                drawTrack(coordinates);
-                saveLastPosition(coordinates);
+            Bundle extras = data.getExtras();
+            if (extras != null) {
+                String batteryLevel = (String) extras.get(BATTERY_LEVEL_PARAM);
+                if (batteryLevel == null) {
+                    List<LatLng> coordinates = fetchCoordinates(data);
+                    if (!coordinates.isEmpty()) {
+                        drawTrack(coordinates);
+                        saveLastPosition(coordinates);
+                    }
+                    //coordinates = coordinates.substring(11);    // Truncate date, e.g. "2019-03-05;"
+                    //getTrackerLogEditText().append(coordinates + "\n");
+                } else {
+                    boolean batteryIsCharging = Boolean.valueOf(data.getStringExtra(BATTERY_IS_CHARGING_PARAM));
+                    Toast.makeText(this,
+                            "Battery = " + batteryLevel + "%. Is charging = " + batteryIsCharging,
+                            Toast.LENGTH_LONG).show();
+                }
             }
-            //coordinates = coordinates.substring(11);    // Truncate date, e.g. "2019-03-05;"
-            //getTrackerLogEditText().append(coordinates + "\n");
         } else {
-            Log.e(TAG, "Can not get coordinates from gps tracker");
-            Toast.makeText(this, "Can not get coordinates from gps tracker", Toast.LENGTH_SHORT).show();
-            //getTrackerLogEditText().append("ERROR: can not get coordinates\n");
+            Log.e(TAG, "Can not get data from gps tracker");
+            Toast.makeText(this, "Can not get data from gps tracker", Toast.LENGTH_SHORT).show();
+            //getTrackerLogEditText().append("ERROR: can not get data from gps tracker\n");
         }
     }
 
@@ -185,11 +198,7 @@ public class HelperAppMainActivity extends AppCompatActivity implements OnMapRea
         googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
     }
 
-    public void clearMap(View view) {
-        googleMap.clear();
-        lastPosition = null;
-    }
-
+    // TODO: 12.03.2019 check if it's possible to check if any other third party service is running now
     private boolean isMyServiceRunning(Class<?> serviceClass) {
         ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
         if (manager != null) {
@@ -202,11 +211,26 @@ public class HelperAppMainActivity extends AppCompatActivity implements OnMapRea
         return false;
     }
 
+    public void clearMap(View view) {
+        googleMap.clear();
+        lastPosition = null;
+    }
+
+    public void getBatteryInfo(View view) {
+        Intent intent = new Intent();
+        intent.setClassName(GPS_TRACKER_PACKAGE_NAME, GPS_TRACKER_SERVICE_CLASS_NAME);
+
+        intent.putExtra(BATTERY_LEVEL_PARAM, "1");
+
+        Log.i(TAG,"run_get_battery_info " + GPS_TRACKER_SERVICE_CLASS_NAME);
+        startActivityForResult(intent, 1);
+    }
+
     public void getGpsCoordinates(View view) {
         Intent intent = new Intent();
         intent.setClassName(GPS_TRACKER_PACKAGE_NAME, GPS_TRACKER_SERVICE_CLASS_NAME);
 
-        Log.i(TAG,"run " + GPS_TRACKER_SERVICE_CLASS_NAME);
+        Log.i(TAG,"run_get_coordinates " + GPS_TRACKER_SERVICE_CLASS_NAME);
         startActivityForResult(intent, 1);
     }
 
