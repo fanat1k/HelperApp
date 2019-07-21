@@ -36,7 +36,8 @@ public class HelperAppMainActivity extends AppCompatActivity implements OnMapRea
     private static final String COORDINATES_DELIMITER = ";";
     private static final String TAG = "HelperApp";
     private static final String BATTERY_LEVEL_PARAM = "battery_level";
-    public static final String BATTERY_IS_CHARGING_PARAM = "battery_is_charging";
+    private static final String BATTERY_IS_CHARGING_PARAM = "battery_is_charging";
+    private static final String LOCATION_UPDATES_ACTIVE_PARAM = "location_updates_active";
 
     // TODO: 08.03.2019 sync access?
     private static LatLng lastPosition;
@@ -80,8 +81,15 @@ public class HelperAppMainActivity extends AppCompatActivity implements OnMapRea
         if (data != null) {
             Bundle extras = data.getExtras();
             if (extras != null) {
-                String batteryLevel = (String) extras.get(BATTERY_LEVEL_PARAM);
-                if (batteryLevel == null) {
+                String batteryLevel = extras.getString(BATTERY_LEVEL_PARAM);
+                String locationUpdatesActive = extras.getString(LOCATION_UPDATES_ACTIVE_PARAM);
+                if (batteryLevel != null) {
+                    boolean batteryIsCharging = extras.getBoolean(BATTERY_IS_CHARGING_PARAM);
+                    Toast.makeText(this, "Battery = " + batteryLevel + "%. Is charging = "
+                            + batteryIsCharging, Toast.LENGTH_LONG).show();
+                } else if (locationUpdatesActive != null) {
+                    Toast.makeText(this,"Location Updates active: " + locationUpdatesActive, Toast.LENGTH_LONG).show();
+                } else {
                     List<LatLng> coordinates = fetchCoordinates(data);
                     if (!coordinates.isEmpty()) {
                         drawTrack(coordinates);
@@ -89,11 +97,6 @@ public class HelperAppMainActivity extends AppCompatActivity implements OnMapRea
                     }
                     //coordinates = coordinates.substring(11);    // Truncate date, e.g. "2019-03-05;"
                     //getTrackerLogEditText().append(coordinates + "\n");
-                } else {
-                    boolean batteryIsCharging = Boolean.valueOf(data.getStringExtra(BATTERY_IS_CHARGING_PARAM));
-                    Toast.makeText(this,
-                            "Battery = " + batteryLevel + "%. Is charging = " + batteryIsCharging,
-                            Toast.LENGTH_LONG).show();
                 }
             }
         } else {
@@ -104,11 +107,11 @@ public class HelperAppMainActivity extends AppCompatActivity implements OnMapRea
     }
 
     private List<LatLng> fetchCoordinates(Intent data) {
-        List<LatLng> coordinateList = new LinkedList<LatLng>();
+        List<LatLng> coordinateList = new LinkedList<>();
 
         String coordinates = data.getStringExtra("coordinates");
         if (coordinates == null) {
-            Toast.makeText(this, "TrackMe service is not running!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "TrackMe service is not running?", Toast.LENGTH_SHORT).show();
         } else {
             if (coordinates.isEmpty()) {
                 Toast.makeText(this, "No new coordinates...", Toast.LENGTH_SHORT).show();
@@ -116,12 +119,13 @@ public class HelperAppMainActivity extends AppCompatActivity implements OnMapRea
                 String[] lines = coordinates.split("\n");
                 for (String line : lines) {
                     String[] str = line.split(COORDINATES_DELIMITER);
+                    String time = str[1];
                     double latitude = Double.parseDouble(str[2]);
                     double longitude = Double.parseDouble(str[3]);
 
                     // TODO: 07.03.2019 "ping" coordinates
                     if (latitude == 0) {
-                        Toast.makeText(this, "Received ping... ", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Liveness at " + time, Toast.LENGTH_SHORT).show();
                         //latitude = getRandomCoordinate(true);
                         //longitude = getRandomCoordinate(false);
 
@@ -223,6 +227,16 @@ public class HelperAppMainActivity extends AppCompatActivity implements OnMapRea
         intent.putExtra(BATTERY_LEVEL_PARAM, "1");
 
         Log.i(TAG,"run_get_battery_info " + GPS_TRACKER_SERVICE_CLASS_NAME);
+        startActivityForResult(intent, 1);
+    }
+
+    public void getLocationUpdatesStatus(View view) {
+        Intent intent = new Intent();
+        intent.setClassName(GPS_TRACKER_PACKAGE_NAME, GPS_TRACKER_SERVICE_CLASS_NAME);
+
+        intent.putExtra(LOCATION_UPDATES_ACTIVE_PARAM, "1");
+
+        Log.i(TAG,"run_get_location_updates_status " + GPS_TRACKER_SERVICE_CLASS_NAME);
         startActivityForResult(intent, 1);
     }
 

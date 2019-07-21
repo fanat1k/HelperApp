@@ -27,35 +27,22 @@
             app:layout_constraintStart_toEndOf="@+id/broadcastText"/>
 -->
     <Button
-        android:id="@+id/sendBroadcast"
-        android:text="Start tracker"
-        android:textAllCaps="false"
-        android:onClick="startGpsTrackerService"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="8dp"
-        style="@style/Widget.AppCompat.Button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
         android:id="@+id/getGpsCoordinates"
-        android:text="Get coordinates"
-        android:textAllCaps="false"
-        android:onClick="getGpsCoordinates"
-        android:layout_width="wrap_content"
+        style="@style/Widget.AppCompat.Button"
+        android:layout_width="60dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        style="@style/Widget.AppCompat.Button"
+        android:onClick="getGpsCoordinates"
+        android:text="Get"
+        android:textAllCaps="false"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/clearMap"
         style="@style/Widget.AppCompat.Button"
-        android:layout_width="wrap_content"
+        android:layout_width="60dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
@@ -63,6 +50,45 @@
         android:text="Clear"
         android:textAllCaps="false"
         app:layout_constraintStart_toEndOf="@+id/getGpsCoordinates"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/batteryLevel"
+        style="@style/Widget.AppCompat.Button"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:onClick="getBatteryInfo"
+        android:text="Battery"
+        android:textAllCaps="false"
+        app:layout_constraintStart_toEndOf="@+id/clearMap"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/getStatus"
+        style="@style/Widget.AppCompat.Button"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:onClick="getLocationUpdatesStatus"
+        android:text="Status"
+        android:textAllCaps="false"
+        app:layout_constraintStart_toEndOf="@+id/batteryLevel"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/startGpsTracker"
+        style="@style/Widget.AppCompat.Button"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        android:onClick="startGpsTrackerService"
+        android:text="Start"
+        android:textAllCaps="false"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
