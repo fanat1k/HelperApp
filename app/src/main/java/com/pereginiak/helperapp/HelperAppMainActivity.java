@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -33,11 +34,15 @@ public class HelperAppMainActivity extends AppCompatActivity implements OnMapRea
     private static final String GPS_TRACKER_MAIN_CLASS_NAME = GPS_TRACKER_PACKAGE_NAME + ".MainActivity";
     private static final String GPS_TRACKER_SERVICE_CLASS_NAME = GPS_TRACKER_PACKAGE_NAME + ".ServiceActivity";
 
-    private static final String COORDINATES_DELIMITER = ";";
     private static final String TAG = "HelperApp";
-    private static final String BATTERY_LEVEL_PARAM = "battery_level";
-    private static final String BATTERY_IS_CHARGING_PARAM = "battery_is_charging";
-    private static final String LOCATION_UPDATES_ACTIVE_PARAM = "location_updates_active";
+    private static final String COORDINATES_DELIMITER = ";";
+    public static final String PARAM_RESPONSE_OK = "response_ok";
+    private static final String PARAM_SERVER = "server";
+    private static final String PARAM_USER = "user";
+    private static final String PARAM_PASSWORD = "password";
+    private static final String PARAM_BATTERY_LEVEL = "battery_level";
+    private static final String PARAM_BATTERY_IS_CHARGING = "battery_is_charging";
+    private static final String PARAM_LOCATION_UPDATES_ACTIVE = "location_updates_active";
 
     // TODO: 08.03.2019 sync access?
     private static LatLng lastPosition;
@@ -81,10 +86,13 @@ public class HelperAppMainActivity extends AppCompatActivity implements OnMapRea
         if (data != null) {
             Bundle extras = data.getExtras();
             if (extras != null) {
-                String batteryLevel = extras.getString(BATTERY_LEVEL_PARAM);
-                String locationUpdatesActive = extras.getString(LOCATION_UPDATES_ACTIVE_PARAM);
-                if (batteryLevel != null) {
-                    boolean batteryIsCharging = extras.getBoolean(BATTERY_IS_CHARGING_PARAM);
+                String batteryLevel = extras.getString(PARAM_BATTERY_LEVEL);
+                String locationUpdatesActive = extras.getString(PARAM_LOCATION_UPDATES_ACTIVE);
+                String responseOk = extras.getString(PARAM_RESPONSE_OK);
+                if (responseOk != null) {
+                    Toast.makeText(this,"response_ok", Toast.LENGTH_LONG).show();
+                }else if (batteryLevel != null) {
+                    boolean batteryIsCharging = extras.getBoolean(PARAM_BATTERY_IS_CHARGING);
                     Toast.makeText(this, "Battery = " + batteryLevel + "%. Is charging = "
                             + batteryIsCharging, Toast.LENGTH_LONG).show();
                 } else if (locationUpdatesActive != null) {
@@ -224,7 +232,7 @@ public class HelperAppMainActivity extends AppCompatActivity implements OnMapRea
         Intent intent = new Intent();
         intent.setClassName(GPS_TRACKER_PACKAGE_NAME, GPS_TRACKER_SERVICE_CLASS_NAME);
 
-        intent.putExtra(BATTERY_LEVEL_PARAM, "1");
+        intent.putExtra(PARAM_BATTERY_LEVEL, "1");
 
         Log.i(TAG,"run_get_battery_info " + GPS_TRACKER_SERVICE_CLASS_NAME);
         startActivityForResult(intent, 1);
@@ -234,7 +242,7 @@ public class HelperAppMainActivity extends AppCompatActivity implements OnMapRea
         Intent intent = new Intent();
         intent.setClassName(GPS_TRACKER_PACKAGE_NAME, GPS_TRACKER_SERVICE_CLASS_NAME);
 
-        intent.putExtra(LOCATION_UPDATES_ACTIVE_PARAM, "1");
+        intent.putExtra(PARAM_LOCATION_UPDATES_ACTIVE, "1");
 
         Log.i(TAG,"run_get_location_updates_status " + GPS_TRACKER_SERVICE_CLASS_NAME);
         startActivityForResult(intent, 1);
@@ -268,6 +276,22 @@ public class HelperAppMainActivity extends AppCompatActivity implements OnMapRea
         //startService(service);
         // TODO: 02.03.2019 does nothing
         //ContextCompat.startForegroundService(this, service);
+    }
+
+    public void setCredentials(View view) {
+        Intent intent = new Intent();
+        intent.setClassName(GPS_TRACKER_PACKAGE_NAME, GPS_TRACKER_SERVICE_CLASS_NAME);
+
+        intent.putExtra(PARAM_SERVER, getTextFieldValueById(R.id.server));
+        intent.putExtra(PARAM_USER, getTextFieldValueById(R.id.user));
+        intent.putExtra(PARAM_PASSWORD, getTextFieldValueById(R.id.password));
+
+        Log.i(TAG,"run_get_location_updates_status " + GPS_TRACKER_SERVICE_CLASS_NAME);
+        startActivityForResult(intent, 1);
+    }
+
+    private String getTextFieldValueById(int fieldId) {
+        return ((EditText) this.findViewById(fieldId)).getText().toString();
     }
 
 /*
