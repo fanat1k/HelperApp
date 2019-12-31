@@ -244,7 +244,25 @@ public class HelperAppMainActivity extends AppCompatActivity implements OnMapRea
 
         intent.putExtra(PARAM_LOCATION_UPDATES_ACTIVE, "1");
 
-        Log.i(TAG,"run_get_location_updates_status " + GPS_TRACKER_SERVICE_CLASS_NAME);
+        Log.i(TAG,"getLocationUpdatesStatus " + GPS_TRACKER_SERVICE_CLASS_NAME);
+        startActivityForResult(intent, 1);
+    }
+
+    public void setStartTime(View view) {
+        setTime(view, "start_time");
+    }
+
+    public void setStopTime(View view) {
+        setTime(view, "stop_time");
+    }
+
+    public void setTime(View view, String kindOfTime) {
+        Intent intent = new Intent();
+        intent.setClassName(GPS_TRACKER_PACKAGE_NAME, GPS_TRACKER_SERVICE_CLASS_NAME);
+
+        intent.putExtra(kindOfTime, getTextFieldValueById(R.id.start_stop_time));
+
+        Log.i(TAG,"setTime " + kindOfTime + " - " + GPS_TRACKER_SERVICE_CLASS_NAME);
         startActivityForResult(intent, 1);
     }
 
@@ -286,7 +304,7 @@ public class HelperAppMainActivity extends AppCompatActivity implements OnMapRea
         intent.putExtra(PARAM_USER, getTextFieldValueById(R.id.user));
         intent.putExtra(PARAM_PASSWORD, getTextFieldValueById(R.id.password));
 
-        Log.i(TAG,"run_get_location_updates_status " + GPS_TRACKER_SERVICE_CLASS_NAME);
+        Log.i(TAG,"setCredentials " + GPS_TRACKER_SERVICE_CLASS_NAME);
         startActivityForResult(intent, 1);
     }
 

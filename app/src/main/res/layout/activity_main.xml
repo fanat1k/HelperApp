@@ -78,6 +78,43 @@
         app:layout_constraintStart_toEndOf="@+id/batteryLevel"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <EditText
+        android:id="@+id/start_stop_time"
+        android:layout_width="61dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:inputType="text"
+        android:text="00:00"
+        app:layout_constraintStart_toEndOf="@+id/getStatus"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/setStartTime"
+        style="@style/Widget.AppCompat.Button"
+        android:layout_width="58dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:onClick="setStartTime"
+        android:text="from"
+        android:textAllCaps="false"
+        app:layout_constraintStart_toEndOf="@+id/start_stop_time"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/setStopTime"
+        style="@style/Widget.AppCompat.Button"
+        android:layout_width="38dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:onClick="setStopTime"
+        android:text="to"
+        android:textAllCaps="false"
+        app:layout_constraintStart_toEndOf="@+id/setStartTime"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <Button
         android:id="@+id/startGpsTracker"
         style="@style/Widget.AppCompat.Button"
