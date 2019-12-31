@@ -36,7 +36,7 @@ public class HelperAppMainActivity extends AppCompatActivity implements OnMapRea
 
     private static final String TAG = "HelperApp";
     private static final String COORDINATES_DELIMITER = ";";
-    public static final String PARAM_RESPONSE_OK = "response_ok";
+    public static final String PARAM_RESPONSE = "response";
     private static final String PARAM_SERVER = "server";
     private static final String PARAM_USER = "user";
     private static final String PARAM_PASSWORD = "password";
@@ -88,9 +88,9 @@ public class HelperAppMainActivity extends AppCompatActivity implements OnMapRea
             if (extras != null) {
                 String batteryLevel = extras.getString(PARAM_BATTERY_LEVEL);
                 String locationUpdatesActive = extras.getString(PARAM_LOCATION_UPDATES_ACTIVE);
-                String responseOk = extras.getString(PARAM_RESPONSE_OK);
-                if (responseOk != null) {
-                    Toast.makeText(this,"response_ok", Toast.LENGTH_LONG).show();
+                String response = extras.getString(PARAM_RESPONSE);
+                if (response != null) {
+                    Toast.makeText(this,"response", Toast.LENGTH_LONG).show();
                 }else if (batteryLevel != null) {
                     boolean batteryIsCharging = extras.getBoolean(PARAM_BATTERY_IS_CHARGING);
                     Toast.makeText(this, "Battery = " + batteryLevel + "%. Is charging = "
