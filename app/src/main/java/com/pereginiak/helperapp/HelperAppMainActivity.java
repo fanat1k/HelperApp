@@ -42,7 +42,7 @@ public class HelperAppMainActivity extends AppCompatActivity implements OnMapRea
     private static final String PARAM_PASSWORD = "password";
     private static final String PARAM_BATTERY_LEVEL = "battery_level";
     private static final String PARAM_BATTERY_IS_CHARGING = "battery_is_charging";
-    private static final String PARAM_LOCATION_UPDATES_ACTIVE = "location_updates_active";
+    private static final String PARAM_HEALTHCHECK = "healthcheck";
 
     // TODO: 08.03.2019 sync access?
     private static LatLng lastPosition;
@@ -87,7 +87,7 @@ public class HelperAppMainActivity extends AppCompatActivity implements OnMapRea
             Bundle extras = data.getExtras();
             if (extras != null) {
                 String batteryLevel = extras.getString(PARAM_BATTERY_LEVEL);
-                String locationUpdatesActive = extras.getString(PARAM_LOCATION_UPDATES_ACTIVE);
+                String healthcheck = extras.getString(PARAM_HEALTHCHECK);
                 String response = extras.getString(PARAM_RESPONSE);
                 if (response != null) {
                     Toast.makeText(this,"response", Toast.LENGTH_LONG).show();
@@ -95,8 +95,8 @@ public class HelperAppMainActivity extends AppCompatActivity implements OnMapRea
                     boolean batteryIsCharging = extras.getBoolean(PARAM_BATTERY_IS_CHARGING);
                     Toast.makeText(this, "Battery = " + batteryLevel + "%. Is charging = "
                             + batteryIsCharging, Toast.LENGTH_LONG).show();
-                } else if (locationUpdatesActive != null) {
-                    Toast.makeText(this,"Location Updates active: " + locationUpdatesActive, Toast.LENGTH_LONG).show();
+                } else if (healthcheck != null) {
+                    Toast.makeText(this,"Healthcheck: " + healthcheck, Toast.LENGTH_LONG).show();
                 } else {
                     List<LatLng> coordinates = fetchCoordinates(data);
                     if (!coordinates.isEmpty()) {
@@ -238,13 +238,13 @@ public class HelperAppMainActivity extends AppCompatActivity implements OnMapRea
         startActivityForResult(intent, 1);
     }
 
-    public void getLocationUpdatesStatus(View view) {
+    public void getHealthcheck(View view) {
         Intent intent = new Intent();
         intent.setClassName(GPS_TRACKER_PACKAGE_NAME, GPS_TRACKER_SERVICE_CLASS_NAME);
 
-        intent.putExtra(PARAM_LOCATION_UPDATES_ACTIVE, "1");
+        intent.putExtra(PARAM_HEALTHCHECK, "1");
 
-        Log.i(TAG,"getLocationUpdatesStatus " + GPS_TRACKER_SERVICE_CLASS_NAME);
+        Log.i(TAG,"getHealthcheck " + GPS_TRACKER_SERVICE_CLASS_NAME);
         startActivityForResult(intent, 1);
     }
 
