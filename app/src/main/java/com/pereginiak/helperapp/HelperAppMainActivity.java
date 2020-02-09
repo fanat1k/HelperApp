@@ -43,6 +43,8 @@ public class HelperAppMainActivity extends AppCompatActivity implements OnMapRea
     private static final String PARAM_BATTERY_LEVEL = "battery_level";
     private static final String PARAM_BATTERY_IS_CHARGING = "battery_is_charging";
     private static final String PARAM_HEALTHCHECK = "healthcheck";
+    private static final String PARAM_LOGS = "logs";
+    private static final String PARAM_LOG_LINES = "log_lines";
 
     // TODO: 08.03.2019 sync access?
     private static LatLng lastPosition;
@@ -88,6 +90,7 @@ public class HelperAppMainActivity extends AppCompatActivity implements OnMapRea
             if (extras != null) {
                 String batteryLevel = extras.getString(PARAM_BATTERY_LEVEL);
                 String healthcheck = extras.getString(PARAM_HEALTHCHECK);
+                String logs = extras.getString(PARAM_LOGS);
                 String response = extras.getString(PARAM_RESPONSE);
                 if (response != null) {
                     Toast.makeText(this,"response", Toast.LENGTH_LONG).show();
@@ -97,6 +100,8 @@ public class HelperAppMainActivity extends AppCompatActivity implements OnMapRea
                             + batteryIsCharging, Toast.LENGTH_LONG).show();
                 } else if (healthcheck != null) {
                     Toast.makeText(this,"Healthcheck: " + healthcheck, Toast.LENGTH_LONG).show();
+                } else if (logs != null) {
+                    Toast.makeText(this, logs, Toast.LENGTH_LONG).show();
                 } else {
                     List<LatLng> coordinates = fetchCoordinates(data);
                     if (!coordinates.isEmpty()) {
@@ -245,6 +250,20 @@ public class HelperAppMainActivity extends AppCompatActivity implements OnMapRea
         intent.putExtra(PARAM_HEALTHCHECK, "1");
 
         Log.i(TAG,"getHealthcheck " + GPS_TRACKER_SERVICE_CLASS_NAME);
+        startActivityForResult(intent, 1);
+    }
+
+    public void getLogs(View view) {
+        Intent intent = new Intent();
+        intent.setClassName(GPS_TRACKER_PACKAGE_NAME, GPS_TRACKER_SERVICE_CLASS_NAME);
+
+        String logLines = getTextFieldValueById(R.id.log_lines);
+        if (!logLines.isEmpty()) {
+            intent.putExtra(PARAM_LOG_LINES, logLines);
+        }
+        intent.putExtra(PARAM_LOGS, "1");
+
+        Log.i(TAG,"getLogs " + GPS_TRACKER_SERVICE_CLASS_NAME);
         startActivityForResult(intent, 1);
     }
 

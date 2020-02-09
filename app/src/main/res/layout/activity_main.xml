@@ -116,6 +116,30 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
+        android:id="@+id/getLogs"
+        style="@style/Widget.AppCompat.Button"
+        android:layout_width="55dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:onClick="getLogs"
+        android:text="logs"
+        android:textAllCaps="false"
+        app:layout_constraintStart_toEndOf="@+id/setStopTime"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/log_lines"
+        android:layout_width="61dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:inputType="text"
+        android:text="20"
+        app:layout_constraintStart_toEndOf="@+id/getLogs"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
         android:id="@+id/startGpsTracker"
         style="@style/Widget.AppCompat.Button"
         android:layout_width="70dp"
