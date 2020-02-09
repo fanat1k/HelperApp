@@ -39,6 +39,7 @@ public class HelperAppMainActivity extends AppCompatActivity implements OnMapRea
     public static final String PARAM_RESPONSE = "response";
     private static final String PARAM_SERVER = "server";
     private static final String PARAM_USER = "user";
+    private static final String PARAM_USER_ID = "user_id";
     private static final String PARAM_PASSWORD = "password";
     private static final String PARAM_BATTERY_LEVEL = "battery_level";
     private static final String PARAM_BATTERY_IS_CHARGING = "battery_is_charging";
@@ -99,7 +100,7 @@ public class HelperAppMainActivity extends AppCompatActivity implements OnMapRea
                     Toast.makeText(this, "Battery = " + batteryLevel + "%. Is charging = "
                             + batteryIsCharging, Toast.LENGTH_LONG).show();
                 } else if (healthcheck != null) {
-                    Toast.makeText(this,"Healthcheck: " + healthcheck, Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, healthcheck, Toast.LENGTH_LONG).show();
                 } else if (logs != null) {
                     Toast.makeText(this, logs, Toast.LENGTH_LONG).show();
                 } else {
@@ -322,6 +323,7 @@ public class HelperAppMainActivity extends AppCompatActivity implements OnMapRea
         intent.putExtra(PARAM_SERVER, getTextFieldValueById(R.id.server));
         intent.putExtra(PARAM_USER, getTextFieldValueById(R.id.user));
         intent.putExtra(PARAM_PASSWORD, getTextFieldValueById(R.id.password));
+        intent.putExtra(PARAM_USER_ID, getTextFieldValueById(R.id.user_id));
 
         Log.i(TAG,"setCredentials " + GPS_TRACKER_SERVICE_CLASS_NAME);
         startActivityForResult(intent, 1);
